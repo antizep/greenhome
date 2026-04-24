@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://liquibase.org"
+    xmlns:xsi="http://w3.org"
+    xsi:schemaLocation="http://liquibase.org
+    http://liquibase.org/dbchangelog-4.4.xsd">
+
+    <changeSet id="20240424-001" author="antizep">
+        <createTable tableName="sensor_readings">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="air_temp" type="DOUBLE"/>
+            <column name="soil_temp" type="DOUBLE"/>
+            <column name="timestamp" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+
+        <createTable tableName="watering_logs">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="zone_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="event_type" type="VARCHAR(20)"/>
+            <column name="event_time" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
