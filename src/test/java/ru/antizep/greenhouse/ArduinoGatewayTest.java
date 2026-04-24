@@ -1,4 +1,4 @@
-package ru.antizep.greenhouse.serial;
+package ru.antizep.greenhouse;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
