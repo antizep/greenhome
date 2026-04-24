@@ -12,6 +12,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import ru.antizep.greenhous.service.IrrigationService;
 import ru.antizep.greenhouse.dto.repository.WateringLogRepository;
+import ru.antizep.greenhouse.serial.command.ArduinoCommand;
+import ru.antizep.greenhouse.serial.command.PumpOnRequest;
+
 @ExtendWith(MockitoExtension.class)
 public class IrrigationServiceTest {
 	@Mock
@@ -31,7 +34,7 @@ public class IrrigationServiceTest {
 	void shouldLogWateringWhenArduinoRespondsOk() {
 
 		int zoneId = 1;
-		String expectedCommand = "PUMP:ON:1#";
+		ArduinoCommand expectedCommand = new PumpOnRequest(zoneId);
 		when(gateway.sendAndReceive(expectedCommand)).thenReturn("OK#");
 
 

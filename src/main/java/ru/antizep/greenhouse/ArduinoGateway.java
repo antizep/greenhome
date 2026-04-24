@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import ru.antizep.greenhouse.serial.command.ArduinoCommand;
+
 @Component
 public class ArduinoGateway {
 	Logger log = LoggerFactory.getLogger(getClass());
@@ -15,7 +17,7 @@ public class ArduinoGateway {
 		this.transport = transport;
 	}
 
-	public synchronized String sendAndReceive(String command) {
+	public synchronized String sendAndReceive(ArduinoCommand command) {
 		String result = null;
 		int i = 0;
 		while(result == null && i< MAX_RETRIES) {
@@ -24,12 +26,12 @@ public class ArduinoGateway {
 				if (!transport.isOpen()) {
 					transport.connect();
 				}
-				transport.write(command);
+				transport.write(command.getCommandString());
 				String response = transport.readLine();
 				if (isValidResponse(response)) {
 					result = response;
 				} else {
-					handleRetry(i, command);
+					handleRetry(i, command.getCommandString());
 				}
 			} catch (InterruptedException e) {
 				log.error("Во время отправки команды произошла непредвиденная ошибка",e);

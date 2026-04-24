@@ -8,6 +8,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import ru.antizep.greenhouse.ArduinoGateway;
 import ru.antizep.greenhouse.SerialTransport;
+import ru.antizep.greenhouse.serial.command.ArduinoCommand;
+import ru.antizep.greenhouse.serial.command.GetAllCommand;
+import ru.antizep.greenhouse.serial.command.PumpOnRequest;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,7 +31,7 @@ class ArduinoGatewayTest {
     @Test
     void shouldSendAndReceiveSuccessfully() {
 
-        String command = "GET:ALL#";
+        ArduinoCommand command = new GetAllCommand();
         String expectedResponse = "TA=25.5;H1=40#";
         
         when(transport.isOpen()).thenReturn(true);
@@ -38,7 +41,7 @@ class ArduinoGatewayTest {
         String actualResponse = gateway.sendAndReceive(command);
 
         assertEquals(expectedResponse, actualResponse);
-        verify(transport).write(command); // Проверяем, что в транспорт ушла именно наша команда
+        verify(transport).write(command.getCommandString());
     }
 
     @Test
@@ -46,25 +49,24 @@ class ArduinoGatewayTest {
 
         when(transport.isOpen()).thenReturn(false);
         when(transport.readLine()).thenReturn("OK#");
+        
+        gateway.sendAndReceive(new PumpOnRequest(1));
 
-        gateway.sendAndReceive("PUMP:ON#");
-
-        verify(transport).connect(); // Проверяем, что шлюз вызвал коннект
+        verify(transport).connect();
     }
     
     @Test
     void shouldRetryIfFirstResponseIsEmpty() {
-        // GIVEN
-        String command = "GET:ALL#";
+       
+        ArduinoCommand command = new GetAllCommand();
         when(transport.isOpen()).thenReturn(true);
-        // Первый вызов - пусто, второй - нормальный ответ
+       
         when(transport.readLine()).thenReturn("").thenReturn("TA=25.5#");
 
-        // WHEN
+ 
         String response = gateway.sendAndReceive(command);
 
-        // THEN
         assertEquals("TA=25.5#", response);
-        verify(transport, times(2)).write(command); // Проверяем, что было 2 попытки
+        verify(transport, times(2)).write(command.getCommandString());
     }
 }

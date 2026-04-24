@@ -28,7 +28,7 @@ public class SerialDataParser {
 	 private List<Double> parseHumidity(Map<String, String> map) {
 		List<Double> zones = map.keySet().stream()
 	            .filter(k -> k.startsWith("H"))
-	            .sorted() // Гарантируем порядок H1, H2...
+	            .sorted()
 	            .map(k -> Double.parseDouble(map.get(k)))
 	            .collect(Collectors.toList());
 		return zones;
