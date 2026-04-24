@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import ru.antizep.greenhouse.serial.SerialTransport;
 import ru.antizep.greenhouse.serial.command.ArduinoCommand;
 
 @Component

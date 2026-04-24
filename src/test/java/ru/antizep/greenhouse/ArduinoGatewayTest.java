@@ -7,7 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import ru.antizep.greenhouse.ArduinoGateway;
-import ru.antizep.greenhouse.SerialTransport;
+import ru.antizep.greenhouse.serial.SerialTransport;
 import ru.antizep.greenhouse.serial.command.ArduinoCommand;
 import ru.antizep.greenhouse.serial.command.GetAllCommand;
 import ru.antizep.greenhouse.serial.command.PumpOnRequest;

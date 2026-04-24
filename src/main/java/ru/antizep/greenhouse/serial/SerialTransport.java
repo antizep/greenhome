@@ -1,4 +1,4 @@
-package ru.antizep.greenhouse;
+package ru.antizep.greenhouse.serial;
 
 public interface SerialTransport {
 	 void write(String data);
