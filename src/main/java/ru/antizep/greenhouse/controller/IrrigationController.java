@@ -20,7 +20,7 @@ public class IrrigationController {
 		this.irrigationService = irrigationService;
 	}
 	
-	 @Operation(summary = "Запустить полив в указанной зоне", 
+	@Operation(summary = "Запустить полив в указанной зоне", 
              description = "Отправляет команду на Arduino и записывает событие в БД")
 	@PostMapping("/start")
 	public void startWaterring(@RequestParam int zoneId) {

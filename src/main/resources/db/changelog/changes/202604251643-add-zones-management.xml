@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:secure="http://www.liquibase.org/xml/ns/secure"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/secure
+        http://www.liquibase.org/xml/ns/secure/liquibase-secure-latest.xsd">
+
+
+	<changeSet id="202604251643" author="antizep">
+	    <createTable tableName="greenhouse_zones">
+	        <column name="id" type="BIGINT" autoIncrement="true">
+	            <constraints primaryKey="true" nullable="false"/>
+	        </column>
+	        <column name="name" type="VARCHAR(100)">
+	            <constraints nullable="false"/>
+	        </column>
+	        <column name="description" type="VARCHAR(255)"/>
+	        <column name="sensor_pin" type="INTEGER">
+	            <constraints nullable="false"/>
+	        </column>
+	    </createTable>
+		<addForeignKeyConstraint  baseColumnNames="zone_id"
+	            baseTableName="watering_logs"
+	            constraintName="fk_address_person"
+	            referencedColumnNames="id"
+	            referencedTableName="greenhouse_zones"
+	            validate="true"/>
+	            
+	    <addColumn tableName="sensor_readings">
+	        <column name="zone_id" type="BIGINT">
+				<constraints nullable="false" foreignKeyName="fk_humidity_reading" 
+		                     referencedTableName="greenhouse_zones" referencedColumnNames="id"/>
+	        </column>
+	    </addColumn>
+	                             		
+		<createTable tableName="zone_humidity_readings">
+		    <column name="reading_id" type="BIGINT">
+		        <constraints nullable="false" foreignKeyName="fk_humidity_reading" 
+		                     referencedTableName="sensor_readings" referencedColumnNames="id"/>
+		    </column>
+		    <column name="zone_id" type="BIGINT">
+		        <constraints nullable="false" foreignKeyName="fk_humidity_zone" 
+		                     referencedTableName="greenhouse_zones" referencedColumnNames="id"/>
+		    </column>
+		    <column name="humidity_value" type="DOUBLE">
+		        <constraints nullable="false"/>
+		    </column>
+		</createTable>	                             
+	</changeSet>
+
+</databaseChangeLog>

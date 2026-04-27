@@ -33,6 +33,5 @@ public class SensorReading {
 	public void setSoilHumidity(List<Double> soilHumidity) {
 		this.soilHumidity = soilHumidity;
 	}
-
 	
 }

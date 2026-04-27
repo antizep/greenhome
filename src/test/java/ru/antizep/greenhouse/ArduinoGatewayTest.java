@@ -9,7 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.antizep.greenhouse.ArduinoGateway;
 import ru.antizep.greenhouse.serial.SerialTransport;
 import ru.antizep.greenhouse.serial.command.ArduinoCommand;
-import ru.antizep.greenhouse.serial.command.GetAllCommand;
+import ru.antizep.greenhouse.serial.command.ReadAllSensorCommand;
 import ru.antizep.greenhouse.serial.command.PumpOnRequest;
 
 import static org.mockito.Mockito.*;
@@ -31,7 +31,7 @@ class ArduinoGatewayTest {
     @Test
     void shouldSendAndReceiveSuccessfully() {
 
-        ArduinoCommand command = new GetAllCommand();
+        ArduinoCommand command = new ReadAllSensorCommand();
         String expectedResponse = "TA=25.5;H1=40#";
         
         when(transport.isOpen()).thenReturn(true);
@@ -58,7 +58,7 @@ class ArduinoGatewayTest {
     @Test
     void shouldRetryIfFirstResponseIsEmpty() {
        
-        ArduinoCommand command = new GetAllCommand();
+        ArduinoCommand command = new ReadAllSensorCommand();
         when(transport.isOpen()).thenReturn(true);
        
         when(transport.readLine()).thenReturn("").thenReturn("TA=25.5#");
