@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import ru.antizep.greenhouse.serial.exception.ArduinoException;
+import ru.antizep.greenhouse.exception.ArduinoException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {

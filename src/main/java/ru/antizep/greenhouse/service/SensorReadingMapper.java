@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import ru.antizep.greenhouse.dto.entity.GreenhouseZoneEntity;
 import ru.antizep.greenhouse.dto.entity.HumidityByZone;
 import ru.antizep.greenhouse.dto.entity.SensorReadingEntity;
+import ru.antizep.greenhouse.exception.ZoneNotFounException;
 import ru.antizep.greenhouse.serial.SensorReading;
 
 public class SensorReadingMapper {
@@ -28,7 +30,7 @@ public class SensorReadingMapper {
 		return resultEntity;
 	}
 	
-	private List<HumidityByZone> mapHumidityByZones(SensorReading reading) {
+	private List<HumidityByZone> mapHumidityByZones(SensorReading reading) throws ZoneNotFounException {
 		List<HumidityByZone> result = new ArrayList<HumidityByZone>();
 		
 		List<Double> humidities = reading.getSoilHumidity();
@@ -37,7 +39,12 @@ public class SensorReadingMapper {
 			
 			HumidityByZone humidityByZone = new HumidityByZone();
 			humidityByZone.setHumidity(humidities.get(i));
-			humidityByZone.setZone(zoneRepository.findById((long)i+1).get());
+			Long id = (long)i+1;
+			Optional<GreenhouseZoneEntity> zoneEntityOptional = zoneRepository.findById(id);
+			if (zoneEntityOptional.isEmpty()) {
+				throw new ZoneNotFounException("Зона не зарегистрирована id:"+id);
+			}
+			humidityByZone.setZone(zoneEntityOptional.get());
 			result.add(humidityByZone);
 		}
 		return result;

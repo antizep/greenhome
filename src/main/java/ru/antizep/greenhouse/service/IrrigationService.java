@@ -8,7 +8,7 @@ import ru.antizep.greenhouse.ArduinoGateway;
 import ru.antizep.greenhouse.dto.entity.WateringLogEntity;
 import ru.antizep.greenhouse.dto.repository.WateringLogRepository;
 import ru.antizep.greenhouse.serial.command.PumpOnRequest;
-import ru.antizep.greenhouse.serial.exception.ArduinoException;
+import ru.antizep.greenhouse.exception.ArduinoException;
 
 @Service
 public class IrrigationService {

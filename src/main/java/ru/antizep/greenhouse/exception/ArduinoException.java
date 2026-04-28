@@ -1,4 +1,4 @@
-package ru.antizep.greenhouse.serial.exception;
+package ru.antizep.greenhouse.exception;
 
 public class ArduinoException extends RuntimeException {
 	public ArduinoException(String errorMessage) {

@@ -2,6 +2,7 @@ package ru.antizep.greenhouse.service;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -17,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.antizep.greenhouse.dto.entity.GreenhouseZoneEntity;
 import ru.antizep.greenhouse.dto.entity.HumidityByZone;
 import ru.antizep.greenhouse.dto.entity.SensorReadingEntity;
+import ru.antizep.greenhouse.exception.ZoneNotFounException;
 import ru.antizep.greenhouse.serial.SensorReading;
 
 @ExtendWith(MockitoExtension.class)
@@ -61,4 +63,14 @@ public class SensorReadingMapperTest {
 	    			() -> assertEquals(humiddity.get(3).getZone().getId(),4L)
 	    );
 	}
+	@Test
+	public void zoneNotFound() {
+		SensorReading reading = new SensorReading();
+		reading.setAirTemp(24.0);
+		reading.setSoilTemp(45.4);
+		reading.setSoilHumidity(List.of(3.4,32.4,45.4,11.4));
+		when(repository.findById(any())).thenReturn(Optional.empty());
+		assertThrows(ZoneNotFounException.class, ()->mapper.mapSensorEntity(reading));
+	}
+	
 }
