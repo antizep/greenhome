@@ -15,7 +15,7 @@ import ru.antizep.greenhouse.ArduinoGateway;
 import ru.antizep.greenhouse.dto.repository.WateringLogRepository;
 import ru.antizep.greenhouse.serial.command.ArduinoCommand;
 import ru.antizep.greenhouse.serial.command.PumpOnRequest;
-import ru.antizep.greenhouse.serial.exception.ArduinoException;
+import ru.antizep.greenhouse.exception.ArduinoException;
 
 @ExtendWith(MockitoExtension.class)
 public class IrrigationServiceTest {

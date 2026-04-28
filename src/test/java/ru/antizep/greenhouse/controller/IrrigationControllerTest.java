@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import ru.antizep.greenhouse.serial.exception.ArduinoException;
+import ru.antizep.greenhouse.exception.ArduinoException;
 import ru.antizep.greenhouse.service.IrrigationService;
 
 @WebMvcTest(IrrigationController.class)
