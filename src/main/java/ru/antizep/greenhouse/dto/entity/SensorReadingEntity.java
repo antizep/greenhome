@@ -2,6 +2,7 @@ package ru.antizep.greenhouse.dto.entity;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import jakarta.persistence.CollectionTable;
@@ -17,7 +18,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "sensor_readings")
-public class SensorEntity {
+public class SensorReadingEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,14 +30,10 @@ public class SensorEntity {
     @Column(name = "soil_temp")
     private Double soilTemp;
 	
-    @ElementCollection
-    @CollectionTable(name = "zone_humidity_readings", joinColumns = @JoinColumn(name = "CUST_ID"))
-    @MapKeyJoinColumn(name = "zone_id")
-    @Column(name = "humidity_value")
-    private Map<GreenhouseZoneEntity, Double> zoneHumidity = new HashMap<>();
-
     private LocalDateTime timestamp;
-
+    
+    private List<HumidityByZone> humidityByZone;
+    
 	public Long getId() {
 		return id;
 	}
@@ -61,20 +58,20 @@ public class SensorEntity {
 		this.soilTemp = soilTemp;
 	}
 
-	public Map<GreenhouseZoneEntity, Double> getZoneHumidity() {
-		return zoneHumidity;
-	}
-
-	public void setZoneHumidity(Map<GreenhouseZoneEntity, Double> zoneHumidity) {
-		this.zoneHumidity = zoneHumidity;
-	}
-
 	public LocalDateTime getTimestamp() {
 		return timestamp;
 	}
 
 	public void setTimestamp(LocalDateTime timestamp) {
 		this.timestamp = timestamp;
+	}
+
+	public List<HumidityByZone> getHumidityByZone() {
+		return humidityByZone;
+	}
+
+	public void setHumidityByZone(List<HumidityByZone> humidityByZone) {
+		this.humidityByZone = humidityByZone;
 	}
 
     

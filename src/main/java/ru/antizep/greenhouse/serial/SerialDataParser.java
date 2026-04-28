@@ -29,6 +29,7 @@ public class SerialDataParser {
 		List<Double> zones = map.keySet().stream()
 	            .filter(k -> k.startsWith("H"))
 	            .sorted()
+	            
 	            .map(k -> Double.parseDouble(map.get(k)))
 	            .collect(Collectors.toList());
 		return zones;
