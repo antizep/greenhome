@@ -1,5 +1,6 @@
 package ru.antizep.greenhouse.service;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -13,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.antizep.greenhouse.ArduinoGateway;
 import ru.antizep.greenhouse.dto.entity.SensorReadingEntity;
 import ru.antizep.greenhouse.dto.repository.SensorReadingRepository;
+import ru.antizep.greenhouse.exception.InvalidProtocolException;
 import ru.antizep.greenhouse.serial.SensorReading;
 import ru.antizep.greenhouse.serial.SerialDataParser;
 import ru.antizep.greenhouse.serial.command.ReadAllSensorCommand;
@@ -39,7 +41,7 @@ public class MonitoringServiceTest {
     }
     
     @Test
-    void shouldFetchAndSaveDataSuccessfully() {
+    void shouldFetchAndSaveDataSuccessfully() throws InvalidProtocolException {
     	
     	String rawData = "TA=25.5;TS=18.0;H1=40;H2=45;H3=30;H4=35#";
        
@@ -52,4 +54,14 @@ public class MonitoringServiceTest {
         
     }
 
+    @Test
+    void shouldFetchAndSaveDataBadParse() throws InvalidProtocolException {
+    	
+    	String rawData = "#A=25.5;TS=18.0;H1=40;H2=45;H3=30;H4=35#";
+       
+        when(gateway.sendAndReceive(any(ReadAllSensorCommand.class))).thenReturn(rawData);
+        
+        assertThrows(InvalidProtocolException.class, () -> service.fetchCurrentData());
+        
+    }
 }

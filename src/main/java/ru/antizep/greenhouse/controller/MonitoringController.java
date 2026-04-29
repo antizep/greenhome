@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import ru.antizep.greenhouse.exception.InvalidProtocolException;
 import ru.antizep.greenhouse.service.MonitoringService;
 
 @RestController
@@ -22,7 +23,7 @@ public class MonitoringController {
 
 	@Operation(summary = "Принудительный опрос датчиков")
 	@RequestMapping("/fetch")
-	public void collectData() {
+	public void collectData() throws InvalidProtocolException {
 		sensorService.fetchCurrentData();
 	}
 }

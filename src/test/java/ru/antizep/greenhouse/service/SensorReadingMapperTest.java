@@ -19,6 +19,7 @@ import ru.antizep.greenhouse.dto.entity.GreenhouseZoneEntity;
 import ru.antizep.greenhouse.dto.entity.HumidityByZone;
 import ru.antizep.greenhouse.dto.entity.SensorReadingEntity;
 import ru.antizep.greenhouse.exception.ZoneNotFounException;
+import ru.antizep.greenhouse.serial.Humidity;
 import ru.antizep.greenhouse.serial.SensorReading;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,7 +39,7 @@ public class SensorReadingMapperTest {
 		SensorReading reading = new SensorReading();
 		reading.setAirTemp(24.0);
 		reading.setSoilTemp(45.4);
-		reading.setSoilHumidity(List.of(3.4,32.4,45.4,11.4));
+		reading.setSoilHumidity(generateHumidities());
 		
 		when(repository.findById(1L)).thenReturn(Optional.of(new GreenhouseZoneEntity(1L,"zone1","грядка под растения",1)));
 		when(repository.findById(2L)).thenReturn(Optional.of(new GreenhouseZoneEntity(2L,"zone2","грядка под растения N2",2)));
@@ -68,9 +69,12 @@ public class SensorReadingMapperTest {
 		SensorReading reading = new SensorReading();
 		reading.setAirTemp(24.0);
 		reading.setSoilTemp(45.4);
-		reading.setSoilHumidity(List.of(3.4,32.4,45.4,11.4));
+		reading.setSoilHumidity(generateHumidities());
 		when(repository.findById(any())).thenReturn(Optional.empty());
 		assertThrows(ZoneNotFounException.class, ()->mapper.mapSensorEntity(reading));
+	}
+	private List<Humidity> generateHumidities(){
+		return List.of(new Humidity(1, 3.4),new Humidity(2, 32.4),new Humidity(3, 45.4),new Humidity(4, 11.4));
 	}
 	
 }
