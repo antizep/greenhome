@@ -4,6 +4,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -14,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import ru.antizep.greenhouse.exception.ArduinoException;
 import ru.antizep.greenhouse.service.IrrigationService;
-
+@Tag("slow")
 @WebMvcTest(IrrigationController.class)
 class IrrigationControllerTest {
 

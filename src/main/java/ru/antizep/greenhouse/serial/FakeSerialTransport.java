@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
-@Profile("dev")
+@Profile({"dev","test"})
 public class FakeSerialTransport implements SerialTransport {
 
 	private static final Logger LOG = LoggerFactory.getLogger(FakeSerialTransport.class);

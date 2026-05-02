@@ -10,8 +10,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Component;
+
 import ru.antizep.greenhouse.exception.InvalidProtocolException;
 
+@Component
 public class SerialDataParser {
 	private static final Pattern PROTOCOL_PATTERN = Pattern.compile("TA=([^;]+);TS=([^;]+);(.*)#");
 

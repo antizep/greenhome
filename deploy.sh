@@ -4,7 +4,7 @@
 set -e
 
 echo "--- 📦 Сборка JAR (Maven) ---"
-./mvnw clean package -DskipTests
+mvn clean package -P full-tests
 
 echo "--- 🐳 Сборка и деплой Docker ---"
 # Используем контекст, если он задан в окружении, иначе локально

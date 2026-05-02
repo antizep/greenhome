@@ -6,13 +6,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.stereotype.Component;
+
 import ru.antizep.greenhouse.dto.entity.GreenhouseZoneEntity;
 import ru.antizep.greenhouse.dto.entity.HumidityByZone;
 import ru.antizep.greenhouse.dto.entity.SensorReadingEntity;
 import ru.antizep.greenhouse.exception.ZoneNotFounException;
 import ru.antizep.greenhouse.serial.Humidity;
 import ru.antizep.greenhouse.serial.SensorReading;
-
+@Component
 public class SensorReadingMapper {
 
 	private GreenhouseZoneRepository zoneRepository;
@@ -27,11 +29,11 @@ public class SensorReadingMapper {
 		SensorReadingEntity resultEntity = new SensorReadingEntity();
 		resultEntity.setAirTemp(reading.getAirTemp());
 		resultEntity.setSoilTemp(reading.getSoilTemp());
-		resultEntity.setHumidityByZone(mapHumidityByZones(reading));
+		resultEntity.setHumidityByZone(mapHumidityByZones(reading,resultEntity));
 		return resultEntity;
 	}
 
-	private List<HumidityByZone> mapHumidityByZones(SensorReading reading) throws ZoneNotFounException {
+	private List<HumidityByZone> mapHumidityByZones(SensorReading reading,SensorReadingEntity sensorReadingEntity) throws ZoneNotFounException {
 		List<HumidityByZone> result = new ArrayList<HumidityByZone>();
 
 		List<Humidity> humidities = reading.getSoilHumidity();
@@ -42,7 +44,7 @@ public class SensorReadingMapper {
 			
 			HumidityByZone humidityByZone = new HumidityByZone();
 			humidityByZone.setHumidity(value);
-
+			humidityByZone.setSensor(sensorReadingEntity);
 			Optional<GreenhouseZoneEntity> zoneEntityOptional = zoneRepository.findById(id);
 			if (zoneEntityOptional.isEmpty()) {
 				throw new ZoneNotFounException("Зона не зарегистрирована id:" + id);

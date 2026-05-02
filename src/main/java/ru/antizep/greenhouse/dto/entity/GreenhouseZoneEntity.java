@@ -11,13 +11,13 @@ import jakarta.persistence.Table;
 public class GreenhouseZoneEntity {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     private String name;
     private String description;
     private int sensorPin; 
     public GreenhouseZoneEntity() {}
     
-	public GreenhouseZoneEntity(Long id, String name, String description, int sensorPin) {
+	public GreenhouseZoneEntity(long id, String name, String description, int sensorPin) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -25,10 +25,10 @@ public class GreenhouseZoneEntity {
 		this.sensorPin = sensorPin;
 	}
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -49,6 +49,13 @@ public class GreenhouseZoneEntity {
 	public void setSensorPin(int sensorPin) {
 		this.sensorPin = sensorPin;
 	}
+
+	@Override
+	public String toString() {
+		
+		return "GreenhouseZoneEntity:{id="+id+",name="+name+",description="+description+",sensorPin="+sensorPin;
+	}
     
+	
     
 }

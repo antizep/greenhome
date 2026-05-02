@@ -31,24 +31,32 @@
 	            referencedColumnNames="id"
 	            referencedTableName="greenhouse_zones"
 	            validate="true"/>
-	            
-	    <addColumn tableName="sensor_readings">
+	   
+	  	<dropColumn tableName="watering_logs">
+	  		<column name="event_type"/>
+	  		<column name="zone_id"/>
+	  	</dropColumn>
+	  	<addColumn tableName="watering_logs">
+	        <column name="event" type="VARCHAR(255)"/>
 	        <column name="zone_id" type="BIGINT">
-				<constraints nullable="false" foreignKeyName="fk_humidity_reading" 
+				<constraints nullable="false" foreignKeyName="fk_watering_logs_zone_id" 
 		                     referencedTableName="greenhouse_zones" referencedColumnNames="id"/>
-	        </column>
+		    </column>
 	    </addColumn>
 	                             		
-		<createTable tableName="zone_humidity_readings">
-		    <column name="reading_id" type="BIGINT">
-		        <constraints nullable="false" foreignKeyName="fk_humidity_reading" 
+		<createTable tableName="sensor_reading_humidity_by_zone">
+		 <column name="id" type="BIGINT" autoIncrement="true">
+	            <constraints primaryKey="true" nullable="false"/>
+	        </column>
+		    <column name="sensor_reading_id" type="BIGINT">
+		        <constraints nullable="false" foreignKeyName="fk_zone_humidity_reading" 
 		                     referencedTableName="sensor_readings" referencedColumnNames="id"/>
 		    </column>
 		    <column name="zone_id" type="BIGINT">
 		        <constraints nullable="false" foreignKeyName="fk_humidity_zone" 
 		                     referencedTableName="greenhouse_zones" referencedColumnNames="id"/>
 		    </column>
-		    <column name="humidity_value" type="DOUBLE">
+		    <column name="humidity" type="DOUBLE">
 		        <constraints nullable="false"/>
 		    </column>
 		</createTable>	                             

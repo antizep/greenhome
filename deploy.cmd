@@ -1,6 +1,6 @@
 @echo off
 echo --- 📦 Сборка JAR (Maven) ---
-call mvn clean package
+call mvn clean package -P full-tests
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
 echo --- 🐳 Сборка и деплой Docker ---

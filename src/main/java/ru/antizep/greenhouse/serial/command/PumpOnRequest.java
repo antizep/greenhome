@@ -4,9 +4,9 @@ import java.util.Objects;
 
 public class PumpOnRequest implements ArduinoCommand {
 
-	private final int zoneId;
+	private final long zoneId;
 	
-	public PumpOnRequest(int zoneId) {
+	public PumpOnRequest(long zoneId) {
 		super();
 		this.zoneId = zoneId;
 	}
