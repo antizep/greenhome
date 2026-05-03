@@ -1,6 +1,7 @@
 package ru.antizep.greenhouse.service;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -18,7 +19,7 @@ import ru.antizep.greenhouse.dto.entity.GreenhouseZoneEntity;
 import ru.antizep.greenhouse.dto.repository.WateringLogRepository;
 import ru.antizep.greenhouse.serial.command.ArduinoCommand;
 import ru.antizep.greenhouse.serial.command.PumpOnRequest;
-import ru.antizep.greenhouse.exception.ArduinoException;
+import ru.antizep.greenhouse.exception.HardwareSerialException;
 import ru.antizep.greenhouse.exception.ZoneNotFounException;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,14 +40,19 @@ public class IrrigationServiceTest {
 	}
 
 	@Test
-	void shouldLogWateringWhenArduinoRespondsZoneNotFound() {
-
+	void shouldLogWateringWhenArduinoRespondsZoneNotFound() throws HardwareSerialException {
 		long zoneId = 1;
 		assertThrows(ZoneNotFounException.class, () -> service.startWatering(zoneId));
 	}
 
 	@Test
-	void shouldLogWateringWhenArduinoRespondsOk() {
+	void shouldLogWateringWhenArduinoNotResponds() throws HardwareSerialException {
+		when(gateway.sendAndReceive(any())).thenThrow(new HardwareSerialException("ControllerNotRespond"));	
+		assertThrows(HardwareSerialException.class, () -> service.startWatering(1));
+	}
+	
+	@Test
+	void shouldLogWateringWhenArduinoRespondsOk() throws HardwareSerialException {
 
 		long zoneId = 1;
 		ArduinoCommand expectedCommand = new PumpOnRequest(zoneId);
@@ -60,13 +66,13 @@ public class IrrigationServiceTest {
 	}
 
 	@Test
-	void shouldLogFailureWhenArduinoRespondsError() {
+	void shouldLogFailureWhenArduinoRespondsError() throws HardwareSerialException {
 
 		long zoneId = 1;
 		when(gateway.sendAndReceive(new PumpOnRequest(zoneId))).thenReturn("ERROR#");
 		when(zoneRepository.findById(zoneId)).thenReturn(Optional.of(new GreenhouseZoneEntity(zoneId,null, null, 0)));
 		
-		assertThrows(ArduinoException.class, () -> service.startWatering(zoneId));
+		assertThrows(HardwareSerialException.class, () -> service.startWatering(zoneId));
 
 		verify(repository).save(argThat(log -> log.getZone().getId() == zoneId && "ERROR".equals(log.getEvent())));
 	}

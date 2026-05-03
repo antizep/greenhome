@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import ru.antizep.greenhouse.ArduinoGateway;
+import ru.antizep.greenhouse.exception.HardwareSerialException;
 import ru.antizep.greenhouse.serial.SerialTransport;
 import ru.antizep.greenhouse.serial.command.ArduinoCommand;
 import ru.antizep.greenhouse.serial.command.ReadAllSensorCommand;
@@ -29,7 +30,7 @@ class ArduinoGatewayTest {
     }
 
     @Test
-    void shouldSendAndReceiveSuccessfully() {
+    void shouldSendAndReceiveSuccessfully() throws HardwareSerialException {
 
         ArduinoCommand command = new ReadAllSensorCommand();
         String expectedResponse = "TA=25.5;H1=40#";
@@ -45,7 +46,7 @@ class ArduinoGatewayTest {
     }
 
     @Test
-    void shouldConnectIfPortIsClosed() {
+    void shouldConnectIfPortIsClosed() throws HardwareSerialException {
 
         when(transport.isOpen()).thenReturn(false);
         when(transport.readLine()).thenReturn("OK#");
@@ -56,7 +57,7 @@ class ArduinoGatewayTest {
     }
     
     @Test
-    void shouldRetryIfFirstResponseIsEmpty() {
+    void shouldRetryIfFirstResponseIsEmpty() throws HardwareSerialException {
        
         ArduinoCommand command = new ReadAllSensorCommand();
         when(transport.isOpen()).thenReturn(true);

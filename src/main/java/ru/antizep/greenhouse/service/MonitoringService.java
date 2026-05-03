@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import ru.antizep.greenhouse.ArduinoGateway;
 import ru.antizep.greenhouse.dto.repository.SensorReadingRepository;
+import ru.antizep.greenhouse.exception.HardwareSerialException;
 import ru.antizep.greenhouse.exception.InvalidProtocolException;
 import ru.antizep.greenhouse.serial.SensorReading;
 import ru.antizep.greenhouse.serial.SerialDataParser;
@@ -25,7 +26,7 @@ public class MonitoringService {
 		this.sensorReadingMapper = sensorReadingMapper;
 	}
 
-	public void fetchCurrentData() throws InvalidProtocolException {
+	public void fetchCurrentData() throws InvalidProtocolException, HardwareSerialException {
 		String response = gateway.sendAndReceive(new ReadAllSensorCommand());
 		SensorReading reading = parser.parse(response);	
 		repository.save(sensorReadingMapper.mapSensorEntity(reading));

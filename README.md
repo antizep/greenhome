@@ -4,6 +4,7 @@
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=fff)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff)
 
+
 Enterprise-решение для автоматизации теплицы на базе **Orange Pi Zero 2W** и **Arduino Mega 2560**. Проект реализует полный цикл сбора данных с датчиков (температура, влажность почвы в 4 зонах) и управление исполнительными устройствами.
 
 ## 🚀 Ключевые особенности
@@ -11,6 +12,7 @@ Enterprise-решение для автоматизации теплицы на 
 - **Database Migrations:** Управление схемой PostgreSQL через **Liquibase**. Никаких ручных правок БД.
 - **Robust Hardware Communication:** Реализован паттерн **Gateway** с Retry Policy для стабильной связи по Serial-порту (jSerialComm).
 - **Enterprise Build Pipeline:** 
+  - Актуальный статус задач и технический бэклог ведется в файле [TODO.md](TODO.md).
   - Сборка образа на Orange Pi с автоматическим версионированием (Timestamp).
   - Платформонезависимый скрипт деплоя (`deploy.sh`|`deploy.cmd`).
   - Разделение профилей `dev` (заглушки) и `prod` (реальное железо).
