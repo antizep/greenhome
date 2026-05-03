@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import ru.antizep.greenhouse.exception.HardwareSerialException;
 import ru.antizep.greenhouse.serial.SerialTransport;
 import ru.antizep.greenhouse.serial.command.ArduinoCommand;
 
@@ -18,7 +19,7 @@ public class ArduinoGateway {
 		this.transport = transport;
 	}
 
-	public synchronized String sendAndReceive(ArduinoCommand command) {
+	public synchronized String sendAndReceive(ArduinoCommand command) throws HardwareSerialException {
 		String result = null;
 		int i = 0;
 		while(result == null && i< MAX_RETRIES) {
@@ -40,7 +41,7 @@ public class ArduinoGateway {
 
 		}
         if (result == null) {
-            throw new RuntimeException("Arduino не ответила после " + MAX_RETRIES + " попыток на команду: " + command);
+            throw new HardwareSerialException("Arduino не ответила после " + MAX_RETRIES + " попыток на команду: " + command);
         }
 		return result;
 	}

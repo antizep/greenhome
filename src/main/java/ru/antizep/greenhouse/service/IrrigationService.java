@@ -10,7 +10,7 @@ import ru.antizep.greenhouse.dto.entity.GreenhouseZoneEntity;
 import ru.antizep.greenhouse.dto.entity.WateringLogEntity;
 import ru.antizep.greenhouse.dto.repository.WateringLogRepository;
 import ru.antizep.greenhouse.serial.command.PumpOnRequest;
-import ru.antizep.greenhouse.exception.ArduinoException;
+import ru.antizep.greenhouse.exception.HardwareSerialException;
 import ru.antizep.greenhouse.exception.ZoneNotFounException;
 
 @Service
@@ -27,7 +27,7 @@ public class IrrigationService {
 		this.greenhouseZoneRepository = greenhouseZoneRepository;
 	}
 
-	public void startWatering(long zoneId) throws ArduinoException {
+	public void startWatering(long zoneId) throws HardwareSerialException {
 		String response = arduinoGateway.sendAndReceive(new PumpOnRequest(zoneId));
 		GreenhouseZoneEntity zone = findZone(zoneId);
 		if ("OK#".equals(response)) {
@@ -35,7 +35,7 @@ public class IrrigationService {
 			wateringLogRepository.save(logEntry);
 		} else {
 			wateringLogRepository.save(new WateringLogEntity(zone, "ERROR", LocalDateTime.now()));
-			throw new ArduinoException("Ошибка обработки команды полива в зоне " + zoneId);
+			throw new HardwareSerialException("Ошибка обработки команды полива в зоне " + zoneId);
 		}
 	}
 	private GreenhouseZoneEntity findZone(long zoneId) {

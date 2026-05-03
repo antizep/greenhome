@@ -20,6 +20,7 @@ public class WateringLogEntity {
 	private long id;
 	
 	private String event;
+	
 	@Column(name= "event_time")
 	private LocalDateTime timestamp;
 

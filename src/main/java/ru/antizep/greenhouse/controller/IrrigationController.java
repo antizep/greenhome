@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import ru.antizep.greenhouse.exception.HardwareSerialException;
 import ru.antizep.greenhouse.service.IrrigationService;
 
 @RestController
@@ -23,7 +24,7 @@ public class IrrigationController {
 	@Operation(summary = "Запустить полив в указанной зоне", 
              description = "Отправляет команду на Arduino и записывает событие в БД")
 	@PostMapping("/start")
-	public void startWaterring(@RequestParam int zoneId) {
+	public void startWaterring(@RequestParam int zoneId) throws HardwareSerialException {
 		irrigationService.startWatering(zoneId);
 	}
 }
