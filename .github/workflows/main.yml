@@ -22,3 +22,12 @@ jobs:
     - name: Build with Maven
       # Запускаем полную сборку с выполнением всех тестов
       run: mvn -B clean verify  -P full-tests
+    
+    - name: Add coverage report to PR
+      uses: madrapps/jacoco-report@v1.6.1
+      if: github.event_name == 'pull_request' # Только для PR
+      with:
+        paths: ${{ github.workspace }}/target/site/jacoco/jacoco.xml
+        token: ${{ secrets.GITHUB_TOKEN }}
+        min-coverage-overall: 80
+        min-coverage-changed-files: 80
